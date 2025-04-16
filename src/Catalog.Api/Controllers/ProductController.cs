@@ -1,5 +1,6 @@
 ﻿using Catalog.Application.Commands.ProductCommand;
 using Catalog.Application.DTOs.Product;
+using Catalog.Application.Queries.ProductQuery;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,8 @@ namespace Catalog.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
-            return Ok();
+            var result = await _mediator.Send(new GetProductByIdQuery(id), cancellationToken);
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
     }
 }
