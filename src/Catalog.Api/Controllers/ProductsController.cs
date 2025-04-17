@@ -2,7 +2,6 @@
 using Catalog.Application.DTOs.Product;
 using Catalog.Application.Queries.ProductQuery;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,11 +9,11 @@ namespace Catalog.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public ProductController(IMediator mediator)
+        public ProductsController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -45,5 +44,14 @@ namespace Catalog.Api.Controllers
             var result = await _mediator.Send(new GetProductBySkuQuery(sku), cancellationToken);
             return Ok(result);
         }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(List<ProductDto>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new GetAllProductsQuery(), cancellationToken);
+            return Ok(result);
+        }
+
     }
 }
