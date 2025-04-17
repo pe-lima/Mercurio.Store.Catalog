@@ -46,7 +46,7 @@ namespace Catalog.Tests.Application.Handlers.ProductHandler
             };
 
             _productRepositoryMock
-                .Setup(repo => repo.GetBySkuAsync(sku))
+                .Setup(repo => repo.GetBySkuAsync(sku, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(product);
 
             _mapperMock
@@ -73,7 +73,7 @@ namespace Catalog.Tests.Application.Handlers.ProductHandler
             var sku = "SKU_NOT_FOUND";
 
             _productRepositoryMock
-                .Setup(repo => repo.GetBySkuAsync(sku))
+                .Setup(repo => repo.GetBySkuAsync(sku, It.IsAny<CancellationToken>()))
                 .ReturnsAsync((Product?)null);
 
             var query = new GetProductBySkuQuery(sku);

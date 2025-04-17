@@ -9,7 +9,7 @@ namespace Catalog.Domain.Interfaces.Repositories
 {
     public interface IProductRepository : IRepository<Product>
     {
-        Task<Product?> GetBySkuAsync(string sku);
-        Task<bool> ExistsBySkuAsync(string sku);
+        Task<Product?> GetBySkuAsync(string sku, CancellationToken cancellationToken = default);
+        Task<bool> ExistsBySkuAsync(string sku, CancellationToken cancellationToken = default);
     } 
 }

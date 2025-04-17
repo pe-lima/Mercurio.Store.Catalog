@@ -6,12 +6,7 @@ using Catalog.Domain.Entities;
 using Catalog.Domain.Interfaces.Repositories;
 using Catalog.Domain.ValueObjects;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Catalog.Application.Handlers.ProductHandler
 {
@@ -28,7 +23,7 @@ namespace Catalog.Application.Handlers.ProductHandler
         }
         public async Task<ProductDto> Handle(RegisterProductCommand request, CancellationToken cancellationToken)
         {
-            var skuExists = _productRepository.ExistsBySkuAsync(request.Sku);
+            var skuExists = _productRepository.ExistsBySkuAsync(request.Sku, cancellationToken);
             if (skuExists.Result)
                 throw new GlobalException($"A product with SKU '{request.Sku}' already exists.", HttpStatusCode.Conflict);
 
@@ -39,7 +34,7 @@ namespace Catalog.Application.Handlers.ProductHandler
                 new Sku(request.Sku),
                 new Stock(request.Quantity));
 
-            await _productRepository.AddAsync(product);
+            await _productRepository.AddAsync(product, cancellationToken);
 
             return _mapper.ToTarget(product);
         }

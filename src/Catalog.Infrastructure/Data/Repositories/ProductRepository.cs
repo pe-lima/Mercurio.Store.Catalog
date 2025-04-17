@@ -2,11 +2,6 @@
 using Catalog.Domain.Interfaces.Repositories;
 using Catalog.Infrastructure.Data.Context;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Catalog.Infrastructure.Data.Repositories
 {
@@ -20,16 +15,20 @@ namespace Catalog.Infrastructure.Data.Repositories
             _products = context.Products;
         }
 
-        public async Task<Product?> GetBySkuAsync(string sku)
+        public async Task<Product?> GetBySkuAsync(string sku, CancellationToken cancellationToken = default)
         {
             var filter = Builders<Product>.Filter.Eq("Sku.Value", sku);
-            return await _products.Find(filter).FirstOrDefaultAsync();
+            return await _products
+                .Find(filter)
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<bool> ExistsBySkuAsync(string sku)
+        public async Task<bool> ExistsBySkuAsync(string sku, CancellationToken cancellationToken = default)
         {
             var filter = Builders<Product>.Filter.Eq("Sku.Value", sku);
-            return await _products.Find(filter).AnyAsync();
+            return await _products
+                .Find(filter)
+                .AnyAsync(cancellationToken);
         }
     }
 }
