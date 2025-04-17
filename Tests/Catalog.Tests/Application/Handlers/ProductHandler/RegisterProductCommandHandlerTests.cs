@@ -8,12 +8,8 @@ using Catalog.Domain.Exceptions;
 using Catalog.Domain.Interfaces.Repositories;
 using Catalog.Domain.ValueObjects;
 using Moq;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Xunit;
 
-namespace Mercurio.Store.UnitTests.Application.Handlers.ProductHandler
+namespace Catalog.Tests.Application.Handlers.ProductHandler
 {
     public class RegisterProductCommandHandlerTests
     {

@@ -7,15 +7,9 @@ using Catalog.Domain.Entities;
 using Catalog.Domain.Interfaces.Repositories;
 using Catalog.Domain.ValueObjects;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Mercurio.Store.UnitTests.Application.Handlers.ProductHandler
+namespace Catalog.Tests.Application.Handlers.ProductHandler
 {
     public class GetProductByIdQueryHandlerTests
     {

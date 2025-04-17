@@ -2,7 +2,7 @@
 using Catalog.Domain.ValueObjects;
 using Xunit;
 
-namespace Mercurio.Store.UnitTests.Domain.ValueObjects
+namespace Catalog.Tests.Domain.ValueObjects
 {
     public class DescriptionTests
     {

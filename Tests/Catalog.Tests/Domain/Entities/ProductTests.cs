@@ -4,7 +4,7 @@ using Catalog.Domain.ValueObjects;
 using System;
 using Xunit;
 
-namespace Mercurio.Store.UnitTests.Domain.Entities
+namespace Catalog.Tests.Domain.Entities
 {
     public class ProductTests
     {
