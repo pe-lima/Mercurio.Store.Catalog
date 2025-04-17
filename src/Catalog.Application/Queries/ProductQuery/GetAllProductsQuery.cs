@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Catalog.Application.Queries.ProductQuery
 {
-    public record GetAllProductsQuery : IRequest<List<ProductDto>>; 
+    public record GetAllProductsQuery(bool IncludeInactive = false) : IRequest<List<ProductDto>>; 
 }
