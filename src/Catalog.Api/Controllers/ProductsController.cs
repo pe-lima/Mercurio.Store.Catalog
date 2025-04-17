@@ -53,5 +53,16 @@ namespace Catalog.Api.Controllers
             return Ok(result);
         }
 
+        [HttpPut("{id:guid}")]
+        [ProducesResponseType(typeof(ProductDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] UpdateProductCommand command, CancellationToken cancellationToken)
+        {
+            if (id != command.Id)
+                return BadRequest("The id in the URL does not match the id in the body.");
+
+            var result = await _mediator.Send(command, cancellationToken);
+            return Ok(result);
+        }
     }
 }
