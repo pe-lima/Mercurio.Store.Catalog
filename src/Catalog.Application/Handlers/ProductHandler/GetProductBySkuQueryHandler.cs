@@ -22,7 +22,7 @@ namespace Catalog.Application.Handlers.ProductHandler
 
         public async Task<ProductDto> Handle(GetProductBySkuQuery request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetBySkuAsync(request.Sku) ??
+            var product = await _productRepository.GetBySkuAsync(request.Sku, cancellationToken) ??
                 throw new GlobalException($"Product with sku {request.Sku} not found.", HttpStatusCode.NotFound);
 
             return _mapper.ToTarget(product);

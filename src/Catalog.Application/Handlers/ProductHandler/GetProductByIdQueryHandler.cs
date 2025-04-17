@@ -27,7 +27,7 @@ namespace Catalog.Application.Handlers.ProductHandler
 
         public async Task<ProductDto> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetByIdAsync(request.Id) ?? 
+            var product = await _productRepository.GetByIdAsync(request.Id, cancellationToken) ?? 
                 throw new GlobalException($"Product with id {request.Id} not found.", HttpStatusCode.NotFound);
 
             return _mapper.ToTarget(product);
