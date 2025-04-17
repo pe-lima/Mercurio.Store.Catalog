@@ -45,7 +45,7 @@ namespace Catalog.Tests.Application.Handlers.ProductHandler
             };
 
             _productRepositoryMock
-                .Setup(repo => repo.GetByIdAsync(productId))
+                .Setup(repo => repo.GetByIdAsync(productId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(product);
             
             _mapperMock
@@ -71,7 +71,7 @@ namespace Catalog.Tests.Application.Handlers.ProductHandler
             var productId = Guid.NewGuid();
             
             _productRepositoryMock
-                .Setup(repo => repo.GetByIdAsync(productId))
+                .Setup(repo => repo.GetByIdAsync(productId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync((Product?)null);
 
             var query = new GetProductByIdQuery(productId);

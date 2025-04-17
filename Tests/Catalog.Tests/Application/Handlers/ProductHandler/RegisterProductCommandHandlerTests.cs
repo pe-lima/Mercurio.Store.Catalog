@@ -51,11 +51,11 @@ namespace Catalog.Tests.Application.Handlers.ProductHandler
             };
 
             _mockProductRepo
-                .Setup(r => r.ExistsBySkuAsync(command.Sku))
+                .Setup(r => r.ExistsBySkuAsync(command.Sku, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
 
             _mockProductRepo
-                .Setup(r => r.AddAsync(It.IsAny<Product>()))
+                .Setup(r => r.AddAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
             _mockMapper
@@ -70,7 +70,7 @@ namespace Catalog.Tests.Application.Handlers.ProductHandler
             Assert.Equal(command.Price, result.Price);
             Assert.Equal(command.Quantity, result.Stock);
 
-            _mockProductRepo.Verify(r => r.AddAsync(It.IsAny<Product>()), Times.Once);
+            _mockProductRepo.Verify(r => r.AddAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()), Times.Once);
             _mockMapper.Verify(m => m.ToTarget(It.IsAny<Product>()), Times.Once);
         }
 
@@ -80,12 +80,12 @@ namespace Catalog.Tests.Application.Handlers.ProductHandler
             var command = new RegisterProductCommand("Produto Duplicado", "Descricao", "SKU-001", 100.0m, 5);
 
             _mockProductRepo
-                .Setup(r => r.ExistsBySkuAsync(command.Sku))
+                .Setup(r => r.ExistsBySkuAsync(command.Sku, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(true);
 
             await Assert.ThrowsAsync<GlobalException>(() => _handler.Handle(command, CancellationToken.None));
 
-            _mockProductRepo.Verify(r => r.AddAsync(It.IsAny<Product>()), Times.Never);
+            _mockProductRepo.Verify(r => r.AddAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace Catalog.Tests.Application.Handlers.ProductHandler
             var command = new RegisterProductCommand("Produto", "Descricao", "SKU-001", -50m, 5);
 
             _mockProductRepo
-                .Setup(r => r.ExistsBySkuAsync(command.Sku))
+                .Setup(r => r.ExistsBySkuAsync(command.Sku, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
 
             await Assert.ThrowsAsync<DomainException>(() => _handler.Handle(command, CancellationToken.None));
@@ -106,11 +106,11 @@ namespace Catalog.Tests.Application.Handlers.ProductHandler
             var command = new RegisterProductCommand("Produto", "Descrição válida", "SKU-999", 150.0m, 5);
 
             _mockProductRepo
-                .Setup(r => r.ExistsBySkuAsync(command.Sku))
+                .Setup(r => r.ExistsBySkuAsync(command.Sku, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
 
             _mockProductRepo
-                .Setup(r => r.AddAsync(It.IsAny<Product>()))
+                .Setup(r => r.AddAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
             _mockMapper
@@ -119,7 +119,7 @@ namespace Catalog.Tests.Application.Handlers.ProductHandler
 
             await Assert.ThrowsAsync<Exception>(() => _handler.Handle(command, CancellationToken.None));
 
-            _mockProductRepo.Verify(r => r.AddAsync(It.IsAny<Product>()), Times.Once);
+            _mockProductRepo.Verify(r => r.AddAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()), Times.Once);
             _mockMapper.Verify(m => m.ToTarget(It.IsAny<Product>()), Times.Once);
         }
     }
