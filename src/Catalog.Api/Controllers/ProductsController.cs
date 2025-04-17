@@ -47,9 +47,10 @@ namespace Catalog.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(List<ProductDto>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken, [FromQuery] bool includeInactive = false)
         {
-            var result = await _mediator.Send(new GetAllProductsQuery(), cancellationToken);
+            var result = await _mediator.Send(new GetAllProductsQuery(includeInactive), cancellationToken);
+
             return Ok(result);
         }
 
