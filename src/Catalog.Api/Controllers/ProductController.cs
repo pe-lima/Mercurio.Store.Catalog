@@ -21,6 +21,7 @@ namespace Catalog.Api.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(ProductDto), (int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> RegisterProduct([FromBody] RegisterProductCommand command, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
@@ -33,7 +34,16 @@ namespace Catalog.Api.Controllers
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetProductByIdQuery(id), cancellationToken);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            return Ok(result);
+        }
+
+        [HttpGet("sku/{sku}")]
+        [ProducesResponseType(typeof(ProductDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetBySku(string sku, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new GetProductBySkuQuery(sku), cancellationToken);
+            return Ok(result);
         }
     }
 }

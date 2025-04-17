@@ -20,7 +20,8 @@ namespace Catalog.Application.Validators.ProductValidator
 
             RuleFor(x => x.Sku)
                 .NotEmpty().WithMessage("SKU is required.")
-                .MaximumLength(20).WithMessage("SKU must be up to 20 characters.");
+                .MaximumLength(20).WithMessage("SKU must be up to 20 characters.")
+                .Matches("^[A-Z0-9\\-_]+$").WithMessage("SKU must contain only uppercase letters, numbers, dashes and underlines.");
 
             RuleFor(x => x.Quantity)
                 .GreaterThanOrEqualTo(0).WithMessage("Stock cannot be negative.");

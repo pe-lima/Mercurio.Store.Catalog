@@ -2,7 +2,7 @@
 using Catalog.Application.Validators.ProductValidator;
 using FluentValidation.TestHelper;
 
-namespace Mercurio.Store.UnitTests.Application.Validators.ProductValidator
+namespace Catalog.Tests.Application.Validators.ProductValidator
 {
     public class RegisterProductCommandValidatorTests
     {
